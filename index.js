@@ -1,9 +1,22 @@
 
 
-function showPosition(lat , long) {
-    let x = document.getElementById("running-status");
-    x.innerHTML = "Latitude: " + lat + 
-    "<br>Longitude: " + long;
+function showPosition() {
+    var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+    function success(pos) {
+        let x = document.getElementById("running-status");
+        x.innerHTML = "Latitude: " + pos.coords.latitude + 
+        "<br>Longitude: " + pos.coords.longitude;
+    }
+      
+    function error(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+      
+    navigator.geolocation.getCurrentPosition(success, error, options);
 }
 
 function showOrHide(){
@@ -15,10 +28,6 @@ function showOrHide(){
     }
 }
 
-function hideLocation(){
-    let x = document.getElementById("running-status");
-    x.innerHTML = "";
-}
 
 // const observer = new MutationObserver(mutation => {
     //     console.log('DOM mutation detected');
@@ -26,7 +35,7 @@ function hideLocation(){
 const watchID = navigator.geolocation.watchPosition((position) => {
     let togglebtn = document.getElementById('running-btn');
     if(togglebtn.checked){
-        showPosition(position.coords.latitude , position.coords.longitude);
+        showPosition();
     }
 });
 
