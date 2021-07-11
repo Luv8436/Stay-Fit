@@ -1,49 +1,37 @@
 
 
-function getLocation() {
-    var x = document.getElementById("demo");
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
+function showPosition(lat , long) {
+    let x = document.getElementById("running-status");
+    x.innerHTML = "Latitude: " + lat + 
+    "<br>Longitude: " + long;
 }
 
-function showPosition(position) {
-    var x = document.getElementById("running-status");
-    x.innerHTML = "Latitude: " + position.coords.latitude + 
-    "<br>Longitude: " + position.coords.longitude;
-}
-
-function getCoordinates(){
+function showOrHide(){
     let togglebtn = document.getElementById('running-btn');
-    if(togglebtn.checked){
-        getLocation();
+    if(!togglebtn.checked){
+        document.getElementById('running-status').style.display = "none";
     }else{
-        hideLocation();
+        document.getElementById('running-status').style.display = "block";
     }
 }
 
 function hideLocation(){
-    var x = document.getElementById("running-status");
+    let x = document.getElementById("running-status");
     x.innerHTML = "";
 }
 
-const observer = new MutationObserver(mutation => {
-    console.log('DOM mutation detected');
+// const observer = new MutationObserver(mutation => {
+    //     console.log('DOM mutation detected');
+    // });
+const watchID = navigator.geolocation.watchPosition((position) => {
+    let togglebtn = document.getElementById('running-btn');
+    if(togglebtn.checked){
+        showPosition(position.coords.latitude , position.coords.longitude);
+    }
 });
 
+    
 
-  
-window.addEventListener('DOMContentLoaded', (event) => {
-    observer.observe(document.querySelector('#running-status'), {
-        childList: true,
-        attributes: true,
-        subtree: true,
-        characterData: true,
-    });
-});
-                                 
-                             
-             
-            
+
+
+
