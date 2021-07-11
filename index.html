@@ -6,12 +6,9 @@
         <script src="index.js" ></script>
     </header>
 <body>
-
-<p>Click the button to get your coordinates.</p>
-
-<button onclick="getLocation()">Try It</button>
-
-<p id="demo"></p>
+    <h1 id="running-status" ></h1>
+    <input onchange="getCoordinates()" type="checkbox" id="running-btn" />
+    <label for="running-btn">Toggle</label>
 
 <script>
 
